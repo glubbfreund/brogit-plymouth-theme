@@ -1,3 +1,6 @@
+# Just a fork - but why?
+This is just a fork of https://github.com/R0b1ns/brogit-plymouth-theme. I didnt create this beauty, but I love it. I found no way to hide the crypt boot password prompt with my automatic decrypt via tpm2. So I added some lines of code to prevent that from showing up. 
+
 # brogit-plymouth-theme
 Plymouth Splash Theme - Dark & Clean
 
