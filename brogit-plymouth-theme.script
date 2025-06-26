@@ -1,24 +1,24 @@
 #  futureprototype.script - boot splash using script plugin
-# 
+#
 #  Copyright (C) 2009 Canonical Ltd.
 #  Copyright © 2010-2016 Aurélien Couderc <coucouf@debian.org>
 #  Copyright © 2014-2016 Juliette Taka <juliette.belin@logilab.fr>
-# 
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2, or (at your option)
 #  any later version.
-# 
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-# 
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 #  02111-1307, USA.
-# 
+#
 #  Written by: Alberto Milone <alberto.milone@canonical.com>
 #
 #  Based on the example provided with the "script plugin" written by:
@@ -116,7 +116,7 @@ fun TextYOffset() {
     local.text_height;
     local.min_height;
 
-    # Put the 1st line below the logo + some spacing 
+    # Put the 1st line below the logo + some spacing
     y = debian_sprite.GetY() + debian.GetHeight();
     #Debug("y = " + y);
 
@@ -439,6 +439,10 @@ fun message_callback (message)
     is_fake = 0;
     if (!message || (message == "")) is_fake = 1;
 
+    # Verschlüsselung unterdrücken
+    if (StringString(message, "cryptsetup: nvme1n1p3_crypt: set up successfully") != NULL)
+        return;
+
     local.substring = "keys:";
 
     # Look for the "keys:" prefix
@@ -572,7 +576,9 @@ fun display_password_callback (prompt, bullets) {
     }
 }
 
-Plymouth.SetDisplayPasswordFunction (display_password_callback); 
+fun display_password_callback (prompt, bullets) {
+    # Passwortanzeige unterdrückt – keine Aktion
+}
 
 Plymouth.SetMessageFunction (message_callback);
 
@@ -673,7 +679,7 @@ fun update_progress_label (progress) {
 
             return 0;
         }
-    }    
+    }
     # Update progress label here
     #
     # FIXME: the queue logic from this theme should really be moved into mountall
@@ -707,7 +713,7 @@ fun init_queue () {
     global.fsck_queue[0].device;
     global.fsck_queue[0].progress;
     global.fsck_queue.counter = 0;
-    global.fsck_queue.biggest_item = 0;    
+    global.fsck_queue.biggest_item = 0;
 }
 
 fun clear_queue () {
@@ -986,7 +992,7 @@ fun update_status_callback (status) {
     }
 
 }
-Plymouth.SetUpdateStatusFunction (update_status_callback); 
+Plymouth.SetUpdateStatusFunction (update_status_callback);
 
 #-----------------------------------------Display Question stuff -----------------------
 #
@@ -999,7 +1005,7 @@ Plymouth.SetUpdateStatusFunction (update_status_callback);
 # time++;
 #}
 #
-#Plymouth.SetDisplayQuestionFunction (display_question_callback); 
+#Plymouth.SetDisplayQuestionFunction (display_question_callback);
 
 #-----------------------------------------Display Normal stuff -----------------------
 #
